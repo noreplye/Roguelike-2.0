@@ -157,18 +157,6 @@ class Outfit : Item
 
 class Program
 {
-    //    public void SelectionList(int ClassSelection)
-    //  {
-    //    ClassSelection switch
-    //  {
-    //    1 =>  character._health = _health + 5;
-    //       if (_health > 100)
-    //     {
-    //       _health = 100;
-
-    // }
-    //}
-    //  }
     private static Factory GetMyPerson(int ClassSelection) =>
         ClassSelection switch
         {

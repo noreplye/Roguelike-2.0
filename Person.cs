@@ -236,15 +236,3 @@ class Program
 
     }
 }
-            else if (enemys[rnd].Health <= 0)
-            {
-                Console.WriteLine("Вы победили");
-            }
-        }
-
-
-
-        Console.ReadKey();
-
-    }
-}

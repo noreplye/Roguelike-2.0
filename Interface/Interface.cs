@@ -1,8 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-public class Class1
+namespace Roguelike-2.0.Interface
 {
-	public Class1()
-	{
-	}
+	internal interface IInterface
+{
+
+
+	string Name { get; }
+}
 }

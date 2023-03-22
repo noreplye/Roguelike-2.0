@@ -4,57 +4,119 @@ using System.Transactions;
 
 public class map
 {
-    private char[,] _map;
-    private int weight;
-    private int height;
+    private char[,] _mapGraphics;
+    private int[,] _mapObjects;
+    private int weight=50;
+    private int height=30;
     private char playerTexture = '@';
+    private ConsoleColor playerColour=ConsoleColor.Yellow;
     private int player_xPos;
     private int player_yPos;
     //map_init
 
-    public map(int _weight,int _height)
+    public map()
     {
-        weight= _weight;
-        height= _height;
-        _map=new char[height,weight];
-    }
-    public static void init_StartRoom(map current_map) //функция создаёт комнату, в которой игрок появляется изначально
-    {
-        map.start_room _start_room = new map.start_room();
-        int xPos = new Random().Next(0,(current_map.weight-_start_room.weight)); //рандомное местоположение комнаты на карте
-        int yPos = new Random().Next(0, (current_map.height - _start_room.height));
-        current_map.player_xPos = xPos + new Random().Next(1, _start_room.weight - 2); //рандомный спавн игрока в комнате
-        current_map.player_yPos = current_map.height-yPos - new Random().Next(3, _start_room.height - 2);
-        // Такое ужасное присваивание потому что у массива индексы вертикальные генерируются сверху вниз, а у координаты "y" снизу вверх
-        // а ещё обнаружил, что при Next(1, _start_room.height - 2) мы возможно заспавнимся в границе, поменял на 3 норм стало лень разбираться
-        for (int i = yPos; i < yPos+_start_room.height; i++)
+        _mapGraphics = new char[height, weight];
+        _mapObjects = new int[height, weight];
+        for (int i = 0; i < height; i++)
         {
-            for (int j = xPos; j < xPos + _start_room.weight; j++)
+            for (int j = 0; j < weight; j++)
             {
-                    current_map._map[i,j]= _start_room._room[i-yPos,j-xPos];
+                _mapObjects[i, j] = 0;
             }
         }
     }
+    public static void init_StartRoom(map current_map) //функция создаёт комнату, в которой игрок появляется изначально (в псевдорандомном месте)
+    {
+        Room StartRoom = new Start_room();
+        current_map.player_xPos =new Random().Next(StartRoom.xGenPos+1, StartRoom.xGenPos-1+StartRoom.weight-1);
+        current_map.player_yPos =new Random().Next(StartRoom.yGenPos + 1, StartRoom.yGenPos - 1 + StartRoom.height - 1);
+        for (int i = 0; i < StartRoom.height; i++)
+        {
+            for (int j = 0; j < StartRoom.weight; j++)
+            {
+                current_map._mapGraphics[StartRoom.yGenPos + i,StartRoom.xGenPos + j] = StartRoom.roomGraphics[i, j];
+                current_map._mapObjects[StartRoom.yGenPos + i, StartRoom.xGenPos + j] = StartRoom.roomObjects[i, j];
+            }
+        }
+        current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 2;
+    }
+    public static void init_newRoom(map current_map, Room newRoom)
+    {
+        for (int i=0; i<newRoom.height; i++)
+            {
+                for (int j=0; j< newRoom.weight; j++)
+                {
+                current_map._mapGraphics[newRoom.yGenPos + i, newRoom.xGenPos + j] = newRoom.roomGraphics[i,j];
+                current_map._mapObjects[newRoom.yGenPos + i, newRoom.xGenPos + j] = newRoom.roomObjects[i, j];
+            }
+            }
+        
+    }
+    public static void init_Event(map current_map)
+    {
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 82)
+        {
+            Room SecondRoom = new Second_room();
+            init_newRoom(current_map,SecondRoom);
+            current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+            current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+
+        }
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 83)
+        {
+            Room ThirdRoom = new Third_room();
+            init_newRoom(current_map, ThirdRoom);
+            current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+            current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+        }
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 84)
+        {
+            Room FourthRoom = new Fourth_room();
+            init_newRoom(current_map, FourthRoom);
+            current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+            current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+        }
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 85)
+        {
+            Room FifthRoom = new Fifth_room();
+            init_newRoom(current_map, FifthRoom);
+            current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+            current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+        }
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 86)
+        {
+            Room BossRoom = new Boss_room();
+            init_newRoom(current_map, BossRoom);
+            current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+            current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+        }
+    }
+
 
 
 
     public static void display(int xPos,int yPos,map current_map) // первые 2 параметра отступ : 1-вправо, 2-вниз
     {
         Console.SetCursorPosition(0, 0);
-        Console.Write($"player_xPos:{current_map.player_xPos}, player_yPos:{current_map.player_yPos}, map_height:{current_map.height}, map_weight:{current_map.weight}");
+        Console.Write($"player_xPos:{current_map.player_xPos}, player_yPos:{current_map.player_yPos}, map_height:{current_map.height}, map_weight:{current_map.weight}, map_object:{current_map._mapObjects[current_map.player_yPos,current_map.player_xPos]}");
         for (int i = 0; i < current_map.height; i++)
         {
             for (int j=0; j < current_map.weight; j++)
             {
-                Console.SetCursorPosition(xPos + j, yPos + i+1);
-                Console.Write($"{current_map._map[i, j]}");
+                Console.SetCursorPosition(xPos + j, yPos + i);
+                Console.Write($"{current_map._mapGraphics[i, j]}");
+                if(i==current_map.player_yPos && j == current_map.player_xPos)
+                {
+                    Console.SetCursorPosition(xPos + j, yPos + i);
+                    Console.ForegroundColor = current_map.playerColour;//Зависит от расы (пока что только в будущем :c )
+                    Console.Write($"{current_map.playerTexture}");
+                    Console.ForegroundColor = ConsoleColor.White;
+                }
             }
             Console.Write("\n");
-            Console.SetCursorPosition(xPos + current_map.player_xPos, yPos+ current_map.height - current_map.player_yPos-1);
-            Console.ForegroundColor= ConsoleColor.Yellow;//Зависит от расы
-            Console.Write($"{current_map.playerTexture}");
-            Console.ForegroundColor = ConsoleColor.White;
         }
+        Console.CursorVisible = false;
     }
 
 
@@ -63,10 +125,13 @@ public class map
         current_map.player_xPos = _xPos;
         current_map.player_yPos = _yPos;
     }
+
     public static void Move(map current_map, ConsoleKeyInfo _pushed_button)
     {   
+        int prev_x=current_map.player_xPos;
+        int prev_y=current_map.player_yPos;
         if (_pushed_button.Key == ConsoleKey.LeftArrow)
-        {
+        {   
             current_map.player_xPos -= 1;
         }
         if (_pushed_button.Key == ConsoleKey.RightArrow)
@@ -75,90 +140,54 @@ public class map
         }
         if (_pushed_button.Key == ConsoleKey.UpArrow)
         {
-            current_map.player_yPos += 1;
+            current_map.player_yPos -= 1;
+           
         }
         if (_pushed_button.Key == ConsoleKey.DownArrow)
         {
-            current_map.player_yPos -= 1;
+            current_map.player_yPos += 1;
         }
-        if (current_map.player_xPos < 0) 
+        if (current_map.player_xPos < 0)
         {
-            current_map.player_xPos = 0;
+            current_map.player_xPos = prev_x;
         }
         if (current_map.player_yPos < 0)
         {
-            current_map.player_yPos = 0;
-        }
-        if (current_map.player_yPos >= current_map.height-1)
-        {
-            current_map.player_yPos = current_map.height-2;
+            current_map.player_yPos = prev_y;
         }
         if (current_map.player_xPos >= current_map.weight)
         {
-            current_map.player_xPos = current_map.weight-1;
+            current_map.player_xPos = prev_x;
         }
-        if ((current_map._map[current_map.height - 2 - current_map.player_yPos, current_map.player_xPos] == '-') ||
-                (current_map._map[current_map.height - 2 - current_map.player_yPos, current_map.player_xPos] == '|'))
+        if (current_map.player_yPos >= current_map.height)
         {
-            if (_pushed_button.Key == ConsoleKey.LeftArrow)
-            {
-                current_map.player_xPos += 1;
-            }
-            if (_pushed_button.Key == ConsoleKey.RightArrow)
-            {
-                current_map.player_xPos -= 1;
-            }
-            if (_pushed_button.Key == ConsoleKey.UpArrow)
-            {
-                current_map.player_yPos -= 1;
-            }
-            if (_pushed_button.Key == ConsoleKey.DownArrow)
-            {
-                current_map.player_yPos += 1;
-            }
+            current_map.player_yPos = prev_y;
         }
-
-    }
-
-    public class start_room
-    {
-        public int weight = 11;
-        public int height = 9;
-        public int room_id = 0;
-        public char[,] _room =
+        if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 0)
         {
-            {'-','-','-','-','-','-','-','-','-','-','-'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'|','.','.','.','.','.','.','.','.','.','+'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'|','.','.','.','.','.','.','.','.','.','|'},
-            {'-','-','-','-','-','-','-','-','-','-','-'}
-        };
+            current_map.player_xPos = prev_x;
+            current_map.player_yPos = prev_y;
+        }
+        Thread.Sleep(70); //скорость ограничил
     }
 }
-/*
-internal class Program
-{
-    static void Main(string[] args)
+
+/*   internal class Program
     {
-        ConsoleKeyInfo pushed_button;
-        int game = 1;
-        int interface_otstup = 10;
-        map first_level = new map(50, 50);
-        map.init_StartRoom(first_level);
-        map.display(interface_otstup, interface_otstup, first_level);
-        Console.CursorVisible = false;
-
-
-        while (game > 0)
+        static void Main(string[] args)
         {
-            map.display(interface_otstup, interface_otstup, first_level);\
-            Console.CursorVisible = false;
-            pushed_button = Console.ReadKey();
-            map.Move(first_level, pushed_button);
+            int game = 1;
+            ConsoleKeyInfo pushed_button;
+            map karta = new map();
+            map.init_StartRoom(karta);
+            while (game > 0)
+            {
+                map.init_Event(karta);
+                map.display(70, 10, karta);
+                pushed_button=Console.ReadKey();
+                map.Move(karta, pushed_button);
+
+            }
         }
     }
 }

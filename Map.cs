@@ -39,7 +39,6 @@ public class map
                 current_map._mapObjects[StartRoom.yGenPos + i, StartRoom.xGenPos + j] = StartRoom.roomObjects[i, j];
             }
         }
-        current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 2;
     }
     public static void init_newRoom(map current_map, Room newRoom)
     {
@@ -53,6 +52,25 @@ public class map
             }
         
     }
+    /*
+    public static void spawnmob(map current_map)
+    {
+        int idkX = new Random().Next(current_map.player_xPos - 1, current_map.player_xPos+2);
+        int idkY = new Random().Next(current_map.player_yPos-1, current_map.player_yPos + 2);
+        int ok = 0;
+        while (ok != 1)
+        {
+            if (current_map._mapGraphics[idkY, idkX] == '.' && current_map.player_xPos!=idkX && current_map.player_yPos != idkY)
+            {
+                current_map._mapGraphics[idkY, idkX] = 'e';
+                current_map._mapObjects[idkY, idkX] = 3;
+                ok = 1;
+            }
+            idkX = new Random().Next(current_map.player_xPos - 1, current_map.player_xPos + 2);
+            idkY = new Random().Next(current_map.player_yPos - 1, current_map.player_yPos + 2);
+        }
+    }
+    */
     public static void init_Event(map current_map)
     {
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 82)
@@ -91,6 +109,12 @@ public class map
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
         }
+        /*int randomic4 = new Random().Next(1,50);
+        if (randomic4 == 17|| randomic4 == 34)
+        {
+            spawnmob(current_map);
+        }
+        */
     }
 
 
@@ -119,7 +143,7 @@ public class map
         Console.CursorVisible = false;
     }
 
-
+    
     public static void setpos(map current_map, int _xPos, int _yPos)
     {
         current_map.player_xPos = _xPos;
@@ -168,27 +192,33 @@ public class map
             current_map.player_xPos = prev_x;
             current_map.player_yPos = prev_y;
         }
-        Thread.Sleep(70); //скорость ограничил
     }
 }
 
-/*   internal class Program
+/*
+
+    internal class Program
     {
         static void Main(string[] args)
         {
             int game = 1;
+
             ConsoleKeyInfo pushed_button;
             map karta = new map();
             map.init_StartRoom(karta);
+            Console.WriteLine("Сначала сделайте полный экран (F11).\nЗатем нажмите любую клавишу");
+            Console.ReadKey();
+            Console.Clear();
             while (game > 0)
             {
-                map.init_Event(karta);
-                map.display(70, 10, karta);
-                pushed_button=Console.ReadKey();
-                map.Move(karta, pushed_button);
-
+                    map.init_Event(karta);
+                    map.display(20, 20, karta);
+                    pushed_button = Console.ReadKey();
+                    map.Move(karta, pushed_button);
+            
             }
         }
     }
 }
+
 */

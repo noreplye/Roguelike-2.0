@@ -18,7 +18,7 @@ class GerArcher : Factory
 {
     public override Person GetMyPerson()
     {
-        Archer archer = new(111, 111, 111, 111, 111, "");
+        Archer archer = new(20, 111, 111, 111, 111, "");
         return archer;
     }
 
@@ -35,7 +35,7 @@ class GetThief : Factory
 
 
 }
-class Person
+public class Person
 {
     public float _damage;
     private float _stamina;
@@ -124,6 +124,100 @@ class Person
     {
 
     }
+    public static void Battle(Person character)
+    {
+        int stam;
+        bool battle = false;
+        Random random = new Random();
+        int rnd = random.Next(0, 3);
+        Person[] enemys =
+        {
+            new Person(5, 50, 50, 100, 1, "орк"),
+            new Person(7, 60, 70, 100, 1, "троль"),
+            new Person(3, 30, 30, 100, 1, "слайм"),
+        };
+
+        Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+        ConsoleKeyInfo Selection;
+        character.ReturnSpell();
+
+        while (character.Health > 0 && enemys[rnd].Health > 0)
+        {
+            //Console.WriteLine($"\n\n{character.Armor}\n{character._SpellCounter}\n\n");
+            Console.WriteLine("На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?");
+            Selection = Console.ReadKey();
+            while (Selection.Key != ConsoleKey.D2)
+            { 
+                    if ((Selection.Key != ConsoleKey.D2)&&( character.Heal > 0))
+                    {
+                        character.DrinkHeal();
+                    }
+                //Console.WriteLine($"\n\n{character.Armor}\n{character._SpellCounter}\n\n");
+                Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+                Console.WriteLine("На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?");
+                Selection = Console.ReadKey();
+            }
+            if (Selection.Key == ConsoleKey.D2)
+            {
+                Console.WriteLine("Какое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3");
+                Selection = Console.ReadKey();
+                while (battle == false)
+                {
+
+                    if (Selection.Key == ConsoleKey.D1)
+                    {
+                        if (character.Stamina > 19)
+                        {
+                            stam = -20;
+                            character.StaminaChanges(stam);
+                            enemys[rnd].TakeDamage(character.Damage);
+                        }
+                        else
+                        {
+                            Console.WriteLine("У вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!");
+                        }
+                    }
+                    if (Selection.Key == ConsoleKey.D2)
+                    {
+                        stam = 10;
+                        character.BlockDamage(enemys[rnd].Damage);
+                        character.StaminaChanges(stam);
+                    }
+                    if (Selection.Key == ConsoleKey.D3)
+                    {
+                        if (character.Stamina > 49)
+                        {
+                            stam = -50;
+                            character.StaminaChanges(stam);
+                            character.SpecialSkill();
+                        }
+                        else
+                        {
+                            Console.WriteLine("У вас недостаточно Выносливости! Вы пытаетесь скастовать способность, но у вас ничего не вышло! Враг вас атаковал!");
+                        }
+                    }
+                    Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+                    character.TakeDamage(enemys[rnd].Damage);
+                    if (character.Health <= 0)
+                    {
+                        Console.WriteLine("Вы умерли");
+                        battle = true;
+                        break;
+                    }
+                    if (enemys[rnd].Health <= 0)
+                    {
+                        character.ReturnSpell();
+                        Console.WriteLine("Вы победили");
+                        battle = true;
+                        break;
+                    }
+                    Console.WriteLine("Какое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3");
+                    Selection = Console.ReadKey();
+                }
+            }
+            Console.WriteLine($"Ваше здоровье: {character.Health}\nВаша выносливость: {character.Stamina}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+        }
+    }
 }
 
 class Knight : Person
@@ -176,5 +270,8 @@ class Thief : Person
         _SpellCounter = 0;
     }
 }
+
+
+
 
 

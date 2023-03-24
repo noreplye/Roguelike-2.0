@@ -174,7 +174,7 @@ public class Person
                         }
                         else
                         {
-                            Console.WriteLine("У вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!");
+                            Console.WriteLine("\nУ вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!\n");
                         }
                     }
                     if (Selection.Key == ConsoleKey.D2)
@@ -193,10 +193,12 @@ public class Person
                         }
                         else
                         {
-                            Console.WriteLine("У вас недостаточно Выносливости! Вы пытаетесь скастовать способность, но у вас ничего не вышло! Враг вас атаковал!");
+                            Console.WriteLine("\nУ вас недостаточно Выносливости! Вы пытаетесь скастовать способность, но у вас ничего не вышло! Враг вас атаковал!\n");
                         }
                     }
-                    Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+                    Console.Write("\n");
+                    character.ShowStats();
+                    Console.WriteLine($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
                     character.TakeDamage(enemys[rnd].Damage);
                     if (character.Health <= 0)
                     {
@@ -207,15 +209,15 @@ public class Person
                     if (enemys[rnd].Health <= 0)
                     {
                         character.ReturnSpell();
-                        Console.WriteLine("Вы победили");
+                        Console.WriteLine("\nВы победили\n");
                         battle = true;
                         break;
                     }
-                    Console.WriteLine("Какое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3");
+                    Console.WriteLine("\nКакое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3\n");
                     Selection = Console.ReadKey();
                 }
             }
-            Console.WriteLine($"Ваше здоровье: {character.Health}\nВаша выносливость: {character.Stamina}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+            Console.WriteLine($"\nВаше здоровье: {character.Health}\nВаша выносливость: {character.Stamina}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
         }
     }
 }

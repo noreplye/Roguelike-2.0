@@ -46,14 +46,14 @@ public class Room
         get { return _roomObjects; }
         protected set { _roomObjects = value; }
     }
-    public static void generateEvent(string[][] Graph, int[][] Objec, int wei, int hei,int roomEvent)
+    public static void generateEvent(string[][] Graph, int[][] Objec, int wei, int hei, int roomEvent)
     {
         int idkX = new Random().Next(0, wei);
         int idkY = new Random().Next(0, hei);
         int ok = 0;
         int roomEve;
-        if (roomEvent == 0) {roomEve = new Random().Next(3, 7); }
-        else {roomEve = roomEvent; }
+        if (roomEvent == 0) { roomEve = new Random().Next(3, 7); }
+        else { roomEve = roomEvent; }
         while (ok != 1)
         {
             if (Graph[idkY][idkX] == ".")
@@ -97,7 +97,7 @@ public class Room
         fileText = new StreamReader(stream).ReadToEnd();
         temproom obj = JsonSerializer.Deserialize<temproom>(fileText);
         generateEvent(obj._roomGraphics, obj._roomObjects, obj.weight, obj.height, obj.roomEvent);
-        return obj; 
+        return obj;
     }
 }
 
@@ -143,7 +143,6 @@ public class temproom : Room
 
 
 }
-
 
 
 

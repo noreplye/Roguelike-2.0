@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Security.Cryptography.X509Certificates;
 using System.Transactions;
 
@@ -113,18 +114,18 @@ public class map
             current_map._mapGraphics[current_map.player_yPos,current_map.player_xPos] = '.';
         }
         if (current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] == 3)
-        {
-            Person.Battle(character);
+        {   
+            //функция боя с мобом
+            Person.Battle(character,new Random().Next(0, 3));
             current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos,current_map.player_xPos] = '.';
-            Console.Clear();
         }
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 10)
         {
-            Person.Battle(character);
+            //функция боя с боссом
+            Person.Battle(character,3);
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
-            Console.Clear();
         }
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 6)
         {
@@ -143,7 +144,7 @@ public class map
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 5)
         {
             //функция сундука
-
+            Person.OpenChest(character);
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
         }
@@ -203,8 +204,8 @@ public class map
 
     public static void display(int xPos,int yPos,map current_map) // первые 2 параметра отступ : 1-вправо, 2-вниз
     {
-        Console.SetCursorPosition(0, 0);
-        Console.Write($"player_xPos:{current_map.player_xPos}, player_yPos:{current_map.player_yPos}, map_height:{current_map.height}, map_weight:{current_map.weight}, map_object:{current_map._mapObjects[current_map.player_yPos,current_map.player_xPos]}");
+        //Console.SetCursorPosition(0, 0);
+        //Console.Write($"player_xPos:{current_map.player_xPos}, player_yPos:{current_map.player_yPos}, map_height:{current_map.height}, map_weight:{current_map.weight}, map_object:{current_map._mapObjects[current_map.player_yPos,current_map.player_xPos]}");
         for (int i = 0; i < current_map.height; i++)
         {
             for (int j=0; j < current_map.weight; j++)
@@ -273,6 +274,7 @@ public class map
             current_map.player_xPos = prev_x;
             current_map.player_yPos = prev_y;
         }
+        
     }
 }
 
@@ -305,24 +307,25 @@ public class map
             Factory factory = GetMyPerson(ClassSelection);
             Person character = factory.GetMyPerson();
             character.TakeName(name);
-            character.ShowStats();
+            //character.ShowStats();
             Console.Clear();
+            
             while (game > 0)
-            {   
-
+            {
+                
                 map.init_Event(karta, character);
                 map.display(50, 20, karta);
+                Console.SetCursorPosition(0, 1);
                 character.ShowStats();
                 pushed_button = Console.ReadKey();
-                map.Move(karta, pushed_button);
+                Game_control.button_control(karta, pushed_button, character);
+                map.display(50, 20, karta);
                 if (character.Health <= 0)
                 {
                     Console.Clear();
                     Console.WriteLine("GAME OVER");
                     game = 0;
                 }
-                map.enemyMoving(karta, 'e', 3);
-                map.enemyMoving(karta, 'K', 10);
             }
            
         }

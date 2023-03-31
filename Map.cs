@@ -130,7 +130,7 @@ public class map
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 6)
         {
             //функция магазина
-
+            Person.Shop(character);
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
         }

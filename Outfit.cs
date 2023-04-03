@@ -20,7 +20,7 @@ public class Weapon : Item
         ItemCost = OutfitCost;
     }
 
-
+    public int WID => Id;
 }
  
 public class Armor : Item

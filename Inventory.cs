@@ -169,12 +169,12 @@
     
     public static void LostMoneyWeapon(Inventory inventory, Weapon ShopWeapon)
     {
-        inventory.Money -= ShopWeapon.Cost;
+        inventory.Money -= ShopWeapon.ItemCost;
     }
 
     public static void LostMoneyArmor(Inventory inventory, Armor ShopArmor) 
     { 
-        inventory.Money -= ShopArmor.Cost;
+        inventory.Money -= ShopArmor.ItemCost;
     }
     public static void SwapWeapon(Person character,Inventory inventory)
     {

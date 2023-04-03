@@ -3,11 +3,6 @@
     public abstract Person GetMyPerson();
 }
 
-interface IDrawable
-{
-	public Draw();
-}
-
 class GetKnight : Factory
 {
     public override Person GetMyPerson()
@@ -331,7 +326,7 @@ public class Person
             Inventory.GetHeal(character.inventory);
         }
     }
-    /*public static void Shop(Person character)
+    public static void Shop(Person character)
     {
         Armor[] armor =
           {
@@ -390,7 +385,7 @@ public class Person
                 {
                     if (selectBUY == 4) break;
                     selectBUY = Convert.ToInt32(Console.ReadLine());
-                    if (selectBUY == 1 && (character.inventory.Money > ShopWeapon.Cost))
+                    if (selectBUY == 1 && (character.inventory.Money > ShopWeapon.ItemCost))
                     {
                         Inventory.GetItemArmor(character, ShopArmor);
                         Inventory.LostMoneyWeapon(character.inventory, ShopWeapon);
@@ -399,9 +394,9 @@ public class Person
                     else
                     {
                         Console.WriteLine($"У вас недостаточно монет!\n" +
-                            $"У вас: {character.inventory.Money} Цена: {ShopWeapon.Cost}\n");
+                            $"У вас: {character.inventory.Money} Цена: {ShopWeapon.ItemCost}\n");
                     }
-                    if (selectBUY == 2 && character.inventory.Money > ShopArmor.Cost)
+                    if (selectBUY == 2 && character.inventory.Money > ShopArmor.ItemCost)
                     {
                         Inventory.GetItemWeapon(character, ShopWeapon);
                         Inventory.LostMoneyArmor(character.inventory, ShopArmor);
@@ -410,7 +405,7 @@ public class Person
                     else
                     {
                         Console.WriteLine($"У вас недостаточно монет!\n" +
-                            $"У вас: {character.inventory.Money} Цена: {ShopArmor.Cost}\n");
+                            $"У вас: {character.inventory.Money} Цена: {ShopArmor.ItemCost}\n");
                     }
                     if ((selectBUY == 3) && (character.inventory.Money > 10))
                     {
@@ -431,9 +426,9 @@ public class Person
                 while (selectSELL != 5)
                 {
                     selectSELL = Convert.ToInt32(Console.ReadLine());
-                    if (selectSELL == 2 && character.inventory.equippedWeapon.WID > 0)
+                    if (selectSELL == 2 && character.inventory.equippedWeapon.Id> 0)
                     {
-                        character.inventory.Money += character.inventory.equippedWeapon.Cost;
+                        character.inventory.Money += character.inventory.equippedWeapon.ItemCost;
                         character.inventory.equippedWeapon = new Weapon(0, 0, 0, "Свободная ячейка под оружие", 0);
                         selectSELL = 5;
                     }
@@ -443,7 +438,7 @@ public class Person
                     }
                     if (selectSELL == 1 && character.inventory.equippedArmor.Type > 0)
                     {
-                        character.inventory.Money += character.inventory.equippedArmor.Cost;
+                        character.inventory.Money += character.inventory.equippedArmor.ItemCost;
                         character.inventory.equippedArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
                         selectSELL = 5;
                     }
@@ -453,7 +448,7 @@ public class Person
                     }
                     if (selectSELL == 3 && character.inventory.inventoryArmor.Type > 0)
                     {
-                        character.inventory.Money += character.inventory.inventoryArmor.Cost;
+                        character.inventory.Money += character.inventory.inventoryArmor.ItemCost;
                         character.inventory.inventoryArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
                         selectSELL = 5;
                     }
@@ -463,7 +458,7 @@ public class Person
                     }
                     if (selectSELL == 4 && character.inventory.inventoryWeapon.Type > 0)
                     {
-                        character.inventory.Money += character.inventory.inventoryWeapon.Cost;
+                        character.inventory.Money += character.inventory.inventoryWeapon.ItemCost;
                         character.inventory.inventoryWeapon = new Weapon(0, 0, 0, "Свободная ячейка под броню", 0);
                         selectSELL = 5;
                     }
@@ -475,7 +470,7 @@ public class Person
             }
         }
 
-    }*/
+    }
 }
 
 class Knight : Person

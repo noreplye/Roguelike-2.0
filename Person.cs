@@ -3,11 +3,6 @@
     public abstract Person GetMyPerson();
 }
 
-interface IDrawable
-{
-	public Draw();
-}
-
 class GetKnight : Factory
 {
     public override Person GetMyPerson()

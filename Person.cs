@@ -3,6 +3,11 @@
     public abstract Person GetMyPerson();
 }
 
+interface IDrawable
+{
+	public Draw();
+}
+
 class GetKnight : Factory
 {
     public override Person GetMyPerson()
@@ -59,11 +64,19 @@ public class Person
         inventory = new Inventory();
         
     }
-
-    public void ShowStats()
+ public void ShowStats()
     {
-        Console.WriteLine($"Вашего персонажа зовут: {_name}\nВаши характеристики:\nУрон = {_damage}\nБроня = " +
-            $"{_armor}\nВыносливость = {_stamina}\nЗдоровье = {_health}");
+        ScreenInfo screenInfo = new ScreenInfo(1);
+        ScreenInfo.AddInfo($"Вашего персонажа зовут: {_name}",screenInfo);
+        ScreenInfo.AddInfo($"Ваши характеристики:", screenInfo);
+        ScreenInfo.AddInfo($"Урон = {_damage}", screenInfo);
+        ScreenInfo.AddInfo($"Броня = {_armor} ", screenInfo);
+        ScreenInfo.AddInfo($"Выносливость = {_stamina}", screenInfo);
+        ScreenInfo.AddInfo($"Здоровье = {_health}", screenInfo);
+        ScreenInfo.ShowLastInfo(screenInfo);
+
+        /*Console.WriteLine($"Вашего персонажа зовут: {_name}\nВаши характеристики:\nУрон = {_damage}\nБроня = " +
+            $"{_armor}\nВыносливость = {_stamina}\nЗдоровье = {_health}");*/
     }
     public float Health => _health;
     public float Stamina => _stamina;
@@ -125,8 +138,9 @@ public class Person
     {
 
     }
-    public static void Battle(Person character, int rnd)
+ public static void Battle(Person character, int rnd)
     {
+        ScreenInfo screenInfo = new ScreenInfo(2);
         int stam;
         bool battle = false;
         Person[] enemys =
@@ -136,15 +150,15 @@ public class Person
             new Person(3, 30, 30, 50, 1, "слайм"),
             new Person(10, 50, 100, 50, 1, "Ким"),
         };
-
-        Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+        ScreenInfo.AddInfo($"Здоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}", screenInfo);
+        ScreenInfo.AddInfo($"На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?", screenInfo);
+        ScreenInfo.ShowLastInfo(screenInfo);
         ConsoleKeyInfo Selection;
         character.ReturnSpell();
 
         while (character.Health > 0 && enemys[rnd].Health > 0)
         {
             //Console.WriteLine($"\n\n{character.Armor}\n{character._SpellCounter}\n\n");
-            Console.WriteLine("На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?");
             Selection = Console.ReadKey();
             while (Selection.Key != ConsoleKey.D2)
             { 
@@ -153,13 +167,19 @@ public class Person
                         character.DrinkHeal();
                     }
                 //Console.WriteLine($"\n\n{character.Armor}\n{character._SpellCounter}\n\n");
-                Console.Write($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
-                Console.WriteLine("На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?");
+                ScreenInfo.AddInfo($"Здоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}", screenInfo);
+                ScreenInfo.AddInfo($"На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?", screenInfo);
+                ScreenInfo.ShowLastInfo(screenInfo);
                 Selection = Console.ReadKey();
             }
             if (Selection.Key == ConsoleKey.D2)
-            {   
-                Console.WriteLine("\nКакое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3");
+            {
+                ScreenInfo.AddInfo($"Какое действие вы выберите?", screenInfo);
+                ScreenInfo.AddInfo($"Атака - 1", screenInfo);
+                ScreenInfo.AddInfo($"Блокировать атаку врага - 2", screenInfo);
+                ScreenInfo.AddInfo($"Специальная способность - 3", screenInfo);
+                ScreenInfo.ShowLastInfo(screenInfo);
+                //Console.WriteLine("\nКакое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3");
                 Selection = Console.ReadKey();
                 while (battle == false)
                 {
@@ -174,7 +194,7 @@ public class Person
                         }
                         else
                         {
-                            Console.WriteLine("\nУ вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!\n");
+                            ScreenInfo.AddInfo("У вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!", screenInfo);
                         }
                     }
                     if (Selection.Key == ConsoleKey.D2)
@@ -193,42 +213,47 @@ public class Person
                         }
                         else
                         {
-                            Console.WriteLine("\nУ вас недостаточно Выносливости! Вы пытаетесь скастовать способность, но у вас ничего не вышло! Враг вас атаковал!\n");
+                            ScreenInfo.AddInfo("У вас недостаточно Выносливости! Вы пытаетесь попасть по врагу, но промахиваетесь! Враг вас атаковал!", screenInfo);
                         }
                     }
-                    Console.Write("\n");
-                    character.ShowStats();
-                    Console.WriteLine($"\nВаше здоровье: {character.Health}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
                     character.TakeDamage(enemys[rnd].Damage);
                     if (character.Health <= 0)
                     {
-                        Console.WriteLine("Вы умерли");
+                        ScreenInfo.AddInfo($"Вы умерли", screenInfo);
+                        ScreenInfo.ShowLastInfo(screenInfo);
                         battle = true;
-                        break;
+                        return;
                     }
                     if (enemys[rnd].Health <= 0)
                     {
                         character.ReturnSpell();
-                        Console.WriteLine("\nВы победили\n");
+                        ScreenInfo.AddInfo($"Вы победили", screenInfo);
+                        ScreenInfo.ShowLastInfo(screenInfo);
                         battle = true;
-                        break;
+                        return;
                     }
-                    Console.WriteLine("\nКакое действие вы выберите?\nАтака - 1\nБлокировать атаку врага - 2\nСпециальная способность - 3\n");
+                    ScreenInfo.AddInfo($"Здоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}", screenInfo);
+                    ScreenInfo.AddInfo($"Какое действие вы выберите?", screenInfo);
+                    ScreenInfo.AddInfo($"Атака - 1", screenInfo);
+                    ScreenInfo.AddInfo($"Блокировать атаку врага - 2", screenInfo);
+                    ScreenInfo.AddInfo($"Специальная способность - 3", screenInfo);
+                    ScreenInfo.ShowLastInfo(screenInfo);
+                    character.ShowStats();
                     Selection = Console.ReadKey();
                 }
             }
-            Console.WriteLine($"\nВаше здоровье: {character.Health}\nВаша выносливость: {character.Stamina}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
+            character.ShowStats();
+            ScreenInfo.ShowLastInfo(screenInfo);
+            //Console.WriteLine($"\nВаше здоровье: {character.Health}\nВаша выносливость: {character.Stamina}\nЗдоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}\n");
         }
     }
 
     public static void OpenChest(Person character)
     {
-        int pox = 0;
-        int poy = 45;
         int toget = new Random().Next(0, 4); // 0 - монетка, 1 - фласка, 2 - броня, 3 - оружие
+		ScreenInfo ChestInfo = new ScreenInfo(3);
         if (toget == 3)
         {
-            Console.SetCursorPosition(pox, poy);
             int index=0;
             Weapon[] weapon = 
             {
@@ -265,10 +290,8 @@ public class Person
                 index = new Random().Next(12, 18);
             }
             Weapon WeaponToGet = weapon[index];
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("                                                           ");
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine($"Вам выпало {WeaponToGet.ItemName} - Урон:{WeaponToGet.ItemStats},Стоимость:{WeaponToGet.ItemCost}");
+            ScreenInfo.AddInfo($"Вам выпало {WeaponToGet.ItemName} - Урон:{WeaponToGet.ItemStats},Стоимость:{WeaponToGet.ItemCost}", ChestInfo);
+			ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemWeapon(character, WeaponToGet);
             Console.Clear();
         }
@@ -290,31 +313,25 @@ public class Person
             };
             index =new Random().Next(0,armor.Length);
             Armor ArmorToGet = armor[index];
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("                                                           ");
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine($"Вам выпало {ArmorToGet.ItemName} - Броня:{ArmorToGet.ItemStats},Стоимость:{ArmorToGet.ItemCost}");
+            ScreenInfo.AddInfo($"Вам выпало {ArmorToGet.ItemName} - Броня:{ArmorToGet.ItemStats},Стоимость:{ArmorToGet.ItemCost}", ChestInfo);
+			ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemArmor(character, ArmorToGet);
             Console.Clear();
         }
         if (toget == 0)
         {
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("                                                           ");
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("Вам выпала монетка");
+            ScreenInfo.AddInfo("Вам выпала монетка", ChestInfo);
+			ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetMoney(character.inventory);
         }
         if (toget == 1)
         {
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("                                                           ");
-            Console.SetCursorPosition(pox, poy);
-            Console.WriteLine("Вам выпало зелье здоровья");
+            ScreenInfo.AddInfo("Вам выпало зелье здоровья", ChestInfo);
+			ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetHeal(character.inventory);
         }
     }
-    public static void Shop(Person character)
+    /*public static void Shop(Person character)
     {
         Armor[] armor =
           {
@@ -458,7 +475,7 @@ public class Person
             }
         }
 
-    }
+    }*/
 }
 
 class Knight : Person
@@ -468,11 +485,12 @@ class Knight : Person
 
     }
     public override void SpecialSkill()
-    {
+    {	ScreenInfo SpecialSkillInfo = new ScreenInfo(4);
         _health = _health + 20;
         if (_health > 100)
             _health = 100;
-        Console.WriteLine($"Вы востановили здоровье! Количесвто здоровья: {_health}\n");
+        ScreenInfo.AddInfo($"Вы востановили здоровье! Количесвто здоровья: {_health}\n", SpecialSkillInfo);
+		ScreenInfo.ShowLastInfo(SpecialSkillInfo);
     }
 
 }

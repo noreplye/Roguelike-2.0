@@ -166,7 +166,16 @@
     {
         inventory.Money += 1;
     }
+    
+    public static void LostMoneyWeapon(Inventory inventory, Weapon ShopWeapon)
+    {
+        inventory.Money -= ShopWeapon.Cost;
+    }
 
+    public static void LostMoneyArmor(Inventory inventory, Armor ShopArmor) 
+    { 
+        inventory.Money -= ShopArmor.Cost;
+    }
     public static void SwapWeapon(Person character,Inventory inventory)
     {
         Weapon weapon = inventory.inventoryWeapon;

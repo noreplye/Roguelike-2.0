@@ -1,5 +1,5 @@
 ﻿using System.Globalization;
-
+using System.Text.Json;
 public class ScreenInfo
 
 {
@@ -7,12 +7,68 @@ public class ScreenInfo
     public string[] StringArrayInfo = new string[_SIZE];
     public int count = 0;
     public int status; //
-
+    
     public ScreenInfo(int _status)
     {
         status = _status; //if status == 1 -> it's person info  //  if status == 2 -> it's battle
     }
+    public static void StartGreeting()
+    {
+        StartGame WelcomeGame = new StartGame();
+        WelcomeGame = StartGame.StartingGame();
+        Console.ReadKey();
+        Console.SetCursorPosition(5, 5);
+        Console.ForegroundColor = ConsoleColor.Cyan;
+        Console.WriteLine(WelcomeGame._greeting1);
+        Console.SetCursorPosition(5, 6);
+        Console.WriteLine(WelcomeGame._greeting2);
+        Console.SetCursorPosition(5, 7);
+        Console.WriteLine(WelcomeGame._greeting3);
+        Console.SetCursorPosition(5, 8);
+        Console.WriteLine(WelcomeGame._greeting4);
+        Console.SetCursorPosition(5, 9);
+        Console.WriteLine(WelcomeGame._greeting5);
+        Console.SetCursorPosition(5, 10);
+        Console.WriteLine(WelcomeGame._greeting6);
+        Console.ReadKey();
+        Console.SetCursorPosition(57, 12);
+        Console.WriteLine(WelcomeGame._present1);
+        Console.SetCursorPosition(57, 13);
+        Console.WriteLine(WelcomeGame._present2);
+        Console.SetCursorPosition(57, 14);
+        Console.WriteLine(WelcomeGame._present3);
+        Console.SetCursorPosition(57, 15);
+        Console.WriteLine(WelcomeGame._present4);
+        Console.SetCursorPosition(57, 16);
+        Console.WriteLine(WelcomeGame._present5);
+        Console.SetCursorPosition(57, 17);
+        Console.WriteLine(WelcomeGame._present6);
+        Console.ForegroundColor = ConsoleColor.White;
+        
+        Console.ReadKey();
+    }
 
+    public static void Menu(int left, int top, int weight, int height)
+    {
+        for (int j = left; j <= weight + left; j++)
+        {
+            Console.SetCursorPosition(j, top);
+            Console.CursorVisible = false;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("-");
+            Console.Write("\n");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.SetCursorPosition(65,20);
+            Console.WriteLine("Нажмите любую клавишу, чтобы начать игру");
+            Console.SetCursorPosition(j, height + top);
+            Console.CursorVisible = false;
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.Write("-");
+            
+        }
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.ReadKey();
+        Console.Clear();
     public static void
         ShowLastInfo(ScreenInfo screenInfo) //if status == 1 -> it's person info  //  if status == 2 -> it's battle
     {

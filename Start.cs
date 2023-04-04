@@ -80,7 +80,7 @@ public class StartGame
    
     public static StartGame StartingGame()
     {
-        Stream stream = new FileStream("C:\\Users\\kolid\\RiderProjects\\ConsoleApp1\\ConsoleApp1\\StartGame.json", FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite);
+        Stream stream = new FileStream(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath("StartGame.json"))))) + "\\StartGame.json", FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite);
         string FileData;
         FileData = new StreamReader(stream).ReadToEnd();
         GameName Starting = JsonSerializer.Deserialize<GameName>(FileData);

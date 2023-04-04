@@ -17,35 +17,48 @@ public class ScreenInfo
         StartGame WelcomeGame = new StartGame();
         WelcomeGame = StartGame.StartingGame();
         Console.ReadKey();
-        Console.SetCursorPosition(5, 5);
-        Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine(WelcomeGame._greeting1);
-        Console.SetCursorPosition(5, 6);
-        Console.WriteLine(WelcomeGame._greeting2);
-        Console.SetCursorPosition(5, 7);
-        Console.WriteLine(WelcomeGame._greeting3);
-        Console.SetCursorPosition(5, 8);
-        Console.WriteLine(WelcomeGame._greeting4);
-        Console.SetCursorPosition(5, 9);
-        Console.WriteLine(WelcomeGame._greeting5);
         Console.SetCursorPosition(5, 10);
+        Console.WriteLine(WelcomeGame._greeting1);
+        Console.SetCursorPosition(5, 11);
+        Console.WriteLine(WelcomeGame._greeting2);
+        Console.SetCursorPosition(5, 12);
+        Console.WriteLine(WelcomeGame._greeting3);
+        Console.SetCursorPosition(5, 13);
+        Console.WriteLine(WelcomeGame._greeting4);
+        Console.SetCursorPosition(5, 14);
+        Console.WriteLine(WelcomeGame._greeting5);
+        Console.SetCursorPosition(5, 15);
         Console.WriteLine(WelcomeGame._greeting6);
         Console.ReadKey();
-        Console.SetCursorPosition(57, 12);
+        Console.SetCursorPosition(57, 18);
         Console.WriteLine(WelcomeGame._present1);
-        Console.SetCursorPosition(57, 13);
+        Console.SetCursorPosition(57, 19);
         Console.WriteLine(WelcomeGame._present2);
-        Console.SetCursorPosition(57, 14);
+        Console.SetCursorPosition(57, 20);
         Console.WriteLine(WelcomeGame._present3);
-        Console.SetCursorPosition(57, 15);
+        Console.SetCursorPosition(57, 21);
         Console.WriteLine(WelcomeGame._present4);
-        Console.SetCursorPosition(57, 16);
+        Console.SetCursorPosition(57, 22);
         Console.WriteLine(WelcomeGame._present5);
-        Console.SetCursorPosition(57, 17);
+        Console.SetCursorPosition(57, 23);
         Console.WriteLine(WelcomeGame._present6);
-        Console.ForegroundColor = ConsoleColor.White;
         
         Console.ReadKey();
+		Console.Clear();
+    }
+    public static void StartNaming()
+    {
+        StartGame RogueGame = new StartGame();
+        RogueGame = StartGame.NamingGame();
+        Console.ReadKey();
+        Console.SetCursorPosition(73,10);
+        Console.WriteLine(RogueGame._rog1);
+        Console.SetCursorPosition(73,11);
+        Console.WriteLine(RogueGame._rog2);
+        Console.SetCursorPosition(73,12);
+        Console.WriteLine(RogueGame._rog3);
+        Console.ReadKey();
+
     }
 
     public static void Menu(int left, int top, int weight, int height)
@@ -58,7 +71,7 @@ public class ScreenInfo
             Console.Write("-");
             Console.Write("\n");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(65,20);
+            Console.SetCursorPosition(65,16);
             Console.WriteLine("Нажмите любую клавишу, чтобы начать игру");
             Console.SetCursorPosition(j, height + top);
             Console.CursorVisible = false;

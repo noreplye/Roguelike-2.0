@@ -14,6 +14,9 @@ public class StartGame
     public string _present4;
     public string _present5;
     public string _present6;
+	public string _rog1;
+    public string _rog2;
+    public string _rog3;
 
     public string greeting1
     {
@@ -76,6 +79,21 @@ public class StartGame
         get { return _present6; }
         set { _present6 = value; }
     }
+	    public string rog1
+    {
+        get { return _rog1; }
+        set { _rog1 = value; }
+    }
+    public string rog2
+    {
+        get { return _rog2; }
+        set { _rog2 = value; }
+    }
+    public string rog3
+    {
+        get { return _rog3; }
+        set { _rog3 = value; }
+    }
 
    
     public static StartGame StartingGame()
@@ -86,6 +104,14 @@ public class StartGame
         GameName Starting = JsonSerializer.Deserialize<GameName>(FileData);
         return Starting; 
     }
+    public static StartGame NamingGame()
+    {
+        Stream streaF = new FileStream(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath("Name.json"))))) + "\\Name.json", FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.ReadWrite);
+        string DataFile = new StreamReader(streaF).ReadToEnd();
+        GameName Naming = JsonSerializer.Deserialize<GameName>(DataFile);
+        return Naming;
+    }
+
 }
 
 public class GameName : StartGame
@@ -149,5 +175,20 @@ public class GameName : StartGame
     {
         get { return _present6; }
         set { _present6 = value; }
+    }
+	    public string rog1
+    {
+        get { return _rog1; }
+        set { _rog1 = value; }
+    }
+    public string rog2
+    {
+        get { return _rog2; }
+        set { _rog2 = value; }
+    }
+    public string rog3
+    {
+        get { return _rog3; }
+        set { _rog3 = value; }
     }
 }

@@ -63,11 +63,11 @@ public class Room
                     Graph[idkY][idkX] = "e";
                     Objec[idkY][idkX] = 3;
                 }
-                if (roomEve == 4) //мирный моб / квест
+                /*if (roomEve == 4) //мирный моб / квест
                 {
                     Graph[idkY][idkX] = "?";
                     Objec[idkY][idkX] = 4;
-                }
+                }*/
                 if (roomEve == 5) //сундук
                 {
                     Graph[idkY][idkX] = "с";

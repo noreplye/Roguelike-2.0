@@ -72,7 +72,7 @@
         Console.ReadKey();
         Console.Clear();
     }
-    
+    /*
     public static void GameWin() // в разработке 
     {
         Console.Clear();
@@ -88,7 +88,7 @@
         Console.ReadKey();
         Console.Clear();
         Console.ReadKey();
-    }
+    }*/
     
     public static void GameOver()
     {

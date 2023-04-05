@@ -9,7 +9,7 @@ class GetKnight : Factory
 {
     public override Person GetMyPerson()
     {
-        Knight knight = new(200, 80, 100, 0, 1, "");
+        Knight knight = new(GameSettings.Game_Settings().KnightDamage, GameSettings.Game_Settings().KnightStamina, GameSettings.Game_Settings().KnightHealth, GameSettings.Game_Settings().KnightArmor, GameSettings.Game_Settings().KnightWeapon, "");
         return knight;
     }
 }
@@ -18,7 +18,7 @@ class GerArcher : Factory
 {
     public override Person GetMyPerson()
     {
-        Archer archer = new(20, 111, 100, 0, 2, "");
+        Archer archer = new(GameSettings.Game_Settings().ArcherDamage, GameSettings.Game_Settings().ArcherStamina, GameSettings.Game_Settings().ArcherHealth, GameSettings.Game_Settings().ArcherArmor, GameSettings.Game_Settings().ArcherWeapon, "");
         return archer;
     }
 }
@@ -27,7 +27,7 @@ class GetThief : Factory
 {
     public override Person GetMyPerson()
     {
-        Thief thief = new(122, 122, 122, 0, 3, "");
+        Thief thief = new(GameSettings.Game_Settings().ThiefDamage, GameSettings.Game_Settings().ThiefStamina, GameSettings.Game_Settings().ThiefHealth, GameSettings.Game_Settings().ThiefArmor, GameSettings.Game_Settings().ThiefWeapon, "");
         return thief;
     }
 }
@@ -41,7 +41,7 @@ public class Person
     public float _armor;
     private int _WeaponId;
     public int _SpellCounter = 0;
-
+    public string _task;
     public Inventory inventory;
 
 
@@ -53,6 +53,7 @@ public class Person
         _armor = armor;
         _name = name;
         _WeaponId = weapon;
+        _task = "отсутствует";
         inventory = new Inventory();
     }
 
@@ -67,6 +68,7 @@ public class Person
         ScreenInfo.AddInfo($"Броня = {_armor} ", screenInfo);
         ScreenInfo.AddInfo($"Выносливость = {_stamina}", screenInfo);
         ScreenInfo.AddInfo($"Здоровье = {_health}", screenInfo);
+        ScreenInfo.AddInfo($"Текущая цель: {_task}", screenInfo);
         ScreenInfo.ShowLastInfo(screenInfo);
         Console.ForegroundColor = ConsoleColor.White;
 
@@ -133,7 +135,7 @@ public class Person
     {
         _health = _health - EnemyDamage * 0.5f -
                   (EnemyDamage * 0.5f * (1 - (_armor / 100)));
-        _stamina += 10;
+        _stamina += GameSettings.Game_Settings().BlockDamageRecover;
     }
 
     virtual public void SpecialSkill()
@@ -152,10 +154,10 @@ public class Person
         bool battle = false;
         Person[] enemys =
         {
-            new Person(5, 50, 50, 50, 1, "орк"),
-            new Person(7, 60, 70, 50, 1, "троль"),
-            new Person(3, 30, 30, 50, 1, "слайм"),
-            new Person(10, 50, 100, 50, 1, "Ким"),
+            new Person(GameSettings.Game_Settings().OrcDamage, GameSettings.Game_Settings().OrcStamina, GameSettings.Game_Settings().OrcHealth, GameSettings.Game_Settings().OrcArmor, 1, "орк"),
+            new Person(GameSettings.Game_Settings().TrollDamage, GameSettings.Game_Settings().TrollStamina, GameSettings.Game_Settings().TrollHealth, GameSettings.Game_Settings().TrollArmor, 1, "троль"),
+            new Person(GameSettings.Game_Settings().SlimeDamage, GameSettings.Game_Settings().SlimeStamina, GameSettings.Game_Settings().SlimeHealth, GameSettings.Game_Settings().SlimeArmor, 1, "слайм"),
+            new Person(GameSettings.Game_Settings().KimDamage, GameSettings.Game_Settings().KimStamina, GameSettings.Game_Settings().KimHealth, GameSettings.Game_Settings().KimArmor, 1, "Ким"),
         };
         ScreenInfo.AddInfo($"Здоровье противника {enemys[rnd].Name}: {enemys[rnd].Health}", BattleInfo);
         ScreenInfo.AddInfo($"На вас напали! Выпить зелье перед ходом(1) или перейти к ходу(2)?", BattleInfo);
@@ -271,24 +273,24 @@ public class Person
             int index = 0;
             Weapon[] weapon =
             {
-                new Weapon(1, 0, 2, "дубовая палка", 10),
-                new Weapon(1, 0, 2, "Ржавая труба", 15),
-                new Weapon(1, 0, 2, "Кочерга", 20),
+                new Weapon(1, 0, 2, "Дубовая палка", 10),
+                new Weapon(1, 0, 3, "Ржавая труба", 15),
+                new Weapon(1, 0, 4, "Кочерга", 20),
                 new Weapon(1, 0, 8, "Арматура", 20),
-                new Weapon(1, 0, 8, "Меч", 20),
-                new Weapon(1, 0, 1000, "Меч короля Артура", 2890),
+                new Weapon(1, 0, 10, "Меч", 20),
+                new Weapon(1, 0, 30, "Меч короля Артура", 2890),
                 new Weapon(2, 1, 2, "Рогатка-1", 10),
-                new Weapon(2, 1, 2, "Рогатка-2", 10),
-                new Weapon(2, 1, 2, "Рогатка-3", 10),
-                new Weapon(2, 1, 8, "Рогатка-4", 10),
-                new Weapon(2, 1, 8, "Лук 5 уровоня", 15),
-                new Weapon(2, 1, 1240, "Лук 6 уровоня", 20),
-                new Weapon(3, 2, 2, "Зубочистка 1 уровня", 10),
-                new Weapon(3, 2, 2, "Зубочистка 2 уровня", 10),
-                new Weapon(3, 2, 2, "Зубочистка 3 уровня", 10),
-                new Weapon(3, 2, 8, "Зубочистка 4 уровня", 10),
-                new Weapon(3, 2, 8, "Зубочистка 5 уровня", 15),
-                new Weapon(3, 2, 190201, "Зубочистка 6 уровня", 20)
+                new Weapon(2, 1, 3, "Рогатка-2", 10),
+                new Weapon(2, 1, 4, "Рогатка-3", 10),
+                new Weapon(2, 1, 7, "Рогатка-4", 10),
+                new Weapon(2, 1, 9, "Лук 5 уровоня", 15),
+                new Weapon(2, 1, 26, "Лук 6 уровоня", 20),
+                new Weapon(3, 2, 4, "Зубочистка 1 уровня", 10),
+                new Weapon(3, 2, 6, "Зубочистка 2 уровня", 10),
+                new Weapon(3, 2, 8, "Зубочистка 3 уровня", 10),
+                new Weapon(3, 2, 10, "Зубочистка 4 уровня", 10),
+                new Weapon(3, 2, 12, "Зубочистка 5 уровня", 15),
+                new Weapon(3, 2, 20, "Зубочистка 6 уровня", 20)
             };
             if (character._WeaponId == 1)
             {
@@ -309,7 +311,6 @@ public class Person
             ScreenInfo.AddInfo($"Вам выпало {WeaponToGet.ItemName} - Урон:{WeaponToGet.ItemStats}, Стоимость:{WeaponToGet.ItemCost}", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemWeapon(character, WeaponToGet);
-            Console.Clear();
         }
 
         if (toget == 2)
@@ -332,7 +333,6 @@ public class Person
             ScreenInfo.AddInfo($"Вам выпало {ArmorToGet.ItemName} - Броня:{ArmorToGet.ItemStats}, Стоимость:{ArmorToGet.ItemCost}", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemArmor(character, ArmorToGet);
-            Console.Clear();
         }
 
         if (toget == 0)
@@ -340,7 +340,6 @@ public class Person
             ScreenInfo.AddInfo("Вам выпала монетка", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetMoney(character.inventory);
-            Console.ReadKey();
         }
 
         if (toget == 1)
@@ -348,13 +347,11 @@ public class Person
             ScreenInfo.AddInfo("Вам выпало зелье здоровья", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetHeal(character.inventory);
-            Console.ReadKey();
         }
         if (toget == 4)
         {
             ScreenInfo.AddInfo("Вам ничего не выпало", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
-            Console.ReadKey();
         }
     }
 
@@ -598,7 +595,7 @@ class Knight : Person
         _health = _health + 20;
         if (_health > 100)
             _health = 100;
-        ScreenInfo.AddInfo($"Вы востановили здоровье! Количесвто здоровья: {_health}\n", SpecialSkillInfo);
+        ScreenInfo.AddInfo($"Вы востановили здоровье! Количество здоровья: {_health}\n", SpecialSkillInfo);
         ScreenInfo.ShowLastInfo(SpecialSkillInfo);
     }
 }
@@ -634,13 +631,14 @@ class Thief : Person
 
     public override void SpecialSkill()
     {
-        _armor = _armor / 1.8f;
+        _armor = _armor * 1.8f;
         _SpellCounter++;
     }
 
     public override void ReturnSpell()
     {
-        _armor *= (float)Math.Pow(1.8f, _SpellCounter); //ДОДЕЛАЙ 
+        _armor /= (float)Math.Pow(1.8f, _SpellCounter);//ДОДЕЛАЙ
+        if (_armor > 100) { _armor = 100; }
         _SpellCounter = 0;
     }
 }

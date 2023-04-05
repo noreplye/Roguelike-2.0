@@ -13,6 +13,7 @@ public class map
     private ConsoleColor playerColour=ConsoleColor.Yellow;
     private int player_xPos;
     private int player_yPos;
+    public Quest kvesti = new Quest();
     //map_init
 
     public map()
@@ -53,25 +54,9 @@ public class map
             }
         
     }
-    /*
-    public static void spawnmob(map current_map)
-    {
-        int idkX = new Random().Next(current_map.player_xPos - 1, current_map.player_xPos+2);
-        int idkY = new Random().Next(current_map.player_yPos-1, current_map.player_yPos + 2);
-        int ok = 0;
-        while (ok != 1)
-        {
-            if (current_map._mapGraphics[idkY, idkX] == '.' && current_map.player_xPos!=idkX && current_map.player_yPos != idkY)
-            {
-                current_map._mapGraphics[idkY, idkX] = 'e';
-                current_map._mapObjects[idkY, idkX] = 3;
-                ok = 1;
-            }
-            idkX = new Random().Next(current_map.player_xPos - 1, current_map.player_xPos + 2);
-            idkY = new Random().Next(current_map.player_yPos - 1, current_map.player_yPos + 2);
-        }
-    }
-    */
+
+
+
     public static void init_Event(map current_map,Person character)
     {
         if (current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] == 82)
@@ -101,10 +86,18 @@ public class map
         
         if (current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] == 85)
         {
-            Room FifthRoom = Room.init(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath("Fifth_room.json"))))) + "\\Fifth_room.json");
-            init_newRoom(current_map, FifthRoom);
-            current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] = 1;
-            current_map._mapGraphics[current_map.player_yPos,current_map.player_xPos] = '.';
+            if (current_map.kvesti.currentQuest >= 3)
+            {
+                Room FifthRoom = Room.init(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetDirectoryName(Path.GetFullPath("Fifth_room.json"))))) + "\\Fifth_room.json");
+                init_newRoom(current_map, FifthRoom);
+                current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
+                current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+            }
+            else {
+                ScreenInfo screenInfo = new ScreenInfo(2);
+                ScreenInfo.AddInfo("Проход Закрыт, вы прошли не все квесты", screenInfo);
+                ScreenInfo.ShowLastInfo(screenInfo);
+                    }
         }
         if (current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] == 86)
         {
@@ -117,6 +110,20 @@ public class map
         {   
             //функция боя с мобом
             Person.Battle(character,new Random().Next(0, 3));
+            if (current_map.kvesti.currentQuest == 1)
+            {
+                Quest.AnswerMain1(character);
+                Inventory.GetItemWeapon(character, new Weapon(4, 4, 10, "Правило Буравчика", 20));
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetMoney(character.inventory);
+                Inventory.GetHeal(character.inventory);
+                current_map.kvesti.currentQuest = 2;
+                character._task = "отсутствует";
+            }
             current_map._mapObjects[current_map.player_yPos,current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos,current_map.player_xPos] = '.';
         }
@@ -137,7 +144,17 @@ public class map
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 4)
         {
             //функция квеста
-
+            if (current_map.kvesti.currentQuest == 0)
+            {   
+                Quest.MainQuests1(character);
+                character._task = "Убить монстра.";
+                current_map.kvesti.currentQuest = 1;
+            }
+            if (current_map.kvesti.currentQuest == 2)
+            {
+                Quest.MainQuest2(current_map);
+                character._task = "Финал.";
+            }
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
         }
@@ -206,13 +223,22 @@ public class map
     {
         //Console.SetCursorPosition(0, 0);
         //Console.Write($"player_xPos:{current_map.player_xPos}, player_yPos:{current_map.player_yPos}, map_height:{current_map.height}, map_weight:{current_map.weight}, map_object:{current_map._mapObjects[current_map.player_yPos,current_map.player_xPos]}");
+        Console.Clear();
         for (int i = 0; i < current_map.height; i++)
         {
             for (int j=0; j < current_map.weight; j++)
             {
-                Console.SetCursorPosition(xPos + j, yPos + i);
-                Console.Write($"{current_map._mapGraphics[i,j]}");
-                if(i==current_map.player_yPos && j == current_map.player_xPos)
+                if (current_map._mapObjects[i, j] == 0)
+                {
+                    Console.SetCursorPosition(xPos + j, yPos + i);
+                    Console.Write($"{current_map._mapGraphics[i, j]}");
+                }
+                if ((j - current_map.player_xPos) * (j - current_map.player_xPos) + (i - current_map.player_yPos) * (i - current_map.player_yPos) <= 33)
+                {
+                    Console.SetCursorPosition(xPos + j, yPos + i);
+                    Console.Write($"{current_map._mapGraphics[i, j]}");
+                }
+                if (i == current_map.player_yPos && j == current_map.player_xPos)
                 {
                     Console.SetCursorPosition(xPos + j, yPos + i);
                     Console.ForegroundColor = current_map.playerColour;//Зависит от расы (пока что только в будущем :c )

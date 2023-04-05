@@ -10,7 +10,7 @@ public class ScreenInfo
     
     public ScreenInfo(int _status)
     {
-        status = _status; //if status == 1 -> it's person info  //  if status == 2 -> it's battle
+        status = _status; //if status == 1 -> it's person info  //  if status == 2 -> it's battle etc
     }
 
     public static void

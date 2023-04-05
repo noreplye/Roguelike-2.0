@@ -39,11 +39,11 @@
     {
         StartGame RogueGame = new StartGame();
         RogueGame = StartGame.NamingGame();
-        Console.SetCursorPosition(73,10);
+        Console.SetCursorPosition(73,14);
         Console.WriteLine(RogueGame._rog1);
-        Console.SetCursorPosition(73,11);
+        Console.SetCursorPosition(73,15);
         Console.WriteLine(RogueGame._rog2);
-        Console.SetCursorPosition(73,12);
+        Console.SetCursorPosition(73,16);
         Console.WriteLine(RogueGame._rog3);
         Console.ReadKey();
 
@@ -59,7 +59,7 @@
             Console.Write("-");
             Console.Write("\n");
             Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(65, 16);
+            Console.SetCursorPosition(65, 20);
             Console.WriteLine("Нажмите любую клавишу, чтобы начать игру");
             Console.SetCursorPosition(j, height + top);
             Console.CursorVisible = false;
@@ -72,6 +72,24 @@
         Console.ReadKey();
         Console.Clear();
     }
+    
+    public static void GameWin() // в разработке 
+    {
+        Console.Clear();
+        Winning WinGaming = new Winning();
+        WinGaming = Winning.GameWinning();
+        Console.ForegroundColor = ConsoleColor.Yellow;
+        Console.SetCursorPosition(73,15);
+        Console.WriteLine(WinGaming._win1);
+        Console.SetCursorPosition(73,16);
+        Console.WriteLine(WinGaming._win2);
+        Console.SetCursorPosition(73,17);
+        Console.WriteLine(WinGaming._win3);
+        Console.ReadKey();
+        Console.Clear();
+        Console.ReadKey();
+    }
+    
     public static void GameOver()
     {
         Console.Clear();
@@ -84,6 +102,8 @@
         Console.WriteLine(Overing._over2);
         Console.SetCursorPosition(73,17);
         Console.WriteLine(Overing._over3);
+        Console.ReadKey();
+        Console.Clear();
         Console.ReadKey();
     }
 }

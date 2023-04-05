@@ -1,4 +1,6 @@
-﻿abstract class Factory
+﻿using System.Net.Http.Headers;
+
+abstract class Factory
 {
     public abstract Person GetMyPerson();
 }
@@ -372,7 +374,7 @@ public class Person
         };
         Weapon[] weapon =
         {
-            new Weapon(1, 0, 2, "дубовая палка", 10),
+            new Weapon(1, 0, 2, "Дубовая палка", 10),
             new Weapon(1, 0, 2, "Ржавая труба", 15),
             new Weapon(1, 0, 2, "Кочерга", 20),
             new Weapon(1, 0, 8, "Арматура", 20),
@@ -394,140 +396,194 @@ public class Person
         Random rand = new Random();
         int index = new Random().Next(0, armor.Length);
         int index1 = new Random().Next(0, weapon.Length);
-        int select = 0;
+        ConsoleKeyInfo _pushedKey;
         ScreenInfo ShopInfo = new ScreenInfo(5);
-        ScreenInfo.AddInfo($"Приветствую тебя, добрый путник {character.Name}, в самом лучшем и единственном магазине во всем подземелье!", ShopInfo); 
-        ScreenInfo.AddInfo("Лучшем, потому что нет аналогов! Единственном, потому что только я не боюсь этих мест! Чего ты желаешь?", ShopInfo);
-        ScreenInfo.AddInfo( "\'1\' - купить предмет", ShopInfo);
-        ScreenInfo.AddInfo("\'2\' - продать предмет", ShopInfo);
-        ScreenInfo.AddInfo("\'3\' - покинуть магазин (Если вы покините магазин, то не сможете вернуться в его на этом уровне)", ShopInfo);
-        ScreenInfo.ShowLastInfo(ShopInfo);
-        while (select != 3)
+        while (1==1)
         {
-            select = Convert.ToInt32(Console.ReadLine());
-            if (select == 3) break;
-            if (select == 1)
+            ScreenInfo.AddInfo($"Приветствую тебя, добрый путник {character.Name}, в самом лучшем и единственном магазине во всем подземелье!", ShopInfo);
+            ScreenInfo.AddInfo("Лучшем, потому что нет аналогов! Единственном, потому что только я не боюсь этих мест! Чего ты желаешь?", ShopInfo);
+            ScreenInfo.AddInfo("\'1\' - купить предмет", ShopInfo);
+            ScreenInfo.AddInfo("\'2\' - продать предмет", ShopInfo);
+            ScreenInfo.AddInfo("\'3\' - покинуть магазин (Если вы покините магазин, то не сможете вернуться в него на этом уровне)", ShopInfo);
+            ScreenInfo.ShowLastInfo(ShopInfo);
+            _pushedKey = Console.ReadKey();
+            if (_pushedKey.Key == ConsoleKey.D1)
             {
-                int selectBUY = 0;
                 Armor ShopArmor = armor[index];
                 Weapon ShopWeapon = weapon[index];
-                ScreenInfo.AddInfo($"Ого! {character.Name}, вам очень повезло! Сегодня в ассортименте:", ShopInfo);
-                ScreenInfo.AddInfo($"Броня: {ShopArmor.ItemName} - защита:{ShopArmor.ItemStats}, цена:{ShopArmor.ItemCost}", ShopInfo);
-                ScreenInfo.AddInfo( $"Оружие: {ShopWeapon.ItemName} - защита:{ShopWeapon.ItemStats}, цена:{ShopWeapon.ItemCost}", ShopInfo);
-                ScreenInfo.AddInfo("Желаете что-нибудь приобрести?", ShopInfo);
-                ScreenInfo.AddInfo("\'1\' - броню", ShopInfo);
-                ScreenInfo.AddInfo("\'2\' - оружие", ShopInfo);
-                ScreenInfo.AddInfo("\'3\' - воздержусь", ShopInfo);
-                ScreenInfo.ShowLastInfo(ShopInfo);
-                while (selectBUY != 4)
+
+                while (_pushedKey.Key != ConsoleKey.D4)
                 {
-                    if (selectBUY == 4) break;
-                    selectBUY = Convert.ToInt32(Console.ReadLine());
-                    if (selectBUY == 1 && (character.inventory.Money > ShopWeapon.ItemCost))
+                    ScreenInfo.AddInfo($"Ого! {character.Name}, вам очень повезло! Сегодня в ассортименте:", ShopInfo);
+                    ScreenInfo.AddInfo($"Броня: {ShopArmor.ItemName} - защита:{ShopArmor.ItemStats}, цена:{ShopArmor.ItemCost}", ShopInfo);
+                    ScreenInfo.AddInfo($"Оружие: {ShopWeapon.ItemName} - защита:{ShopWeapon.ItemStats}, цена:{ShopWeapon.ItemCost}", ShopInfo);
+                    ScreenInfo.AddInfo("Желаете что-нибудь приобрести?", ShopInfo);
+                    ScreenInfo.AddInfo("\'1\' - броню", ShopInfo);
+                    ScreenInfo.AddInfo("\'2\' - оружие", ShopInfo);
+                    ScreenInfo.AddInfo("\'3\' - зелье", ShopInfo);
+                    ScreenInfo.AddInfo("\'4\' - воздержусь", ShopInfo);
+                    ScreenInfo.ShowLastInfo(ShopInfo);
+                    _pushedKey = Console.ReadKey();
+                    if (_pushedKey.Key == ConsoleKey.D1)
                     {
-                        Inventory.GetItemArmor(character, ShopArmor);
-                        Inventory.LostMoneyWeapon(character.inventory, ShopWeapon);
-                        selectBUY = 4;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo("У вас недостаточно монет!", ShopInfo); 
-                        ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: {ShopWeapon.ItemCost}", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
+                        if (character.inventory.Money > ShopWeapon.ItemCost)
+                        {
+                            Inventory.GetItemArmor(character, ShopArmor);
+                            Inventory.LostMoneyWeapon(character.inventory, ShopWeapon);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас недостаточно монет!", ShopInfo);
+                            ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: {ShopWeapon.ItemCost}", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
                     }
 
-                    if (selectBUY == 2 && character.inventory.Money > ShopArmor.ItemCost)
+
+                    if (_pushedKey.Key == ConsoleKey.D2)
                     {
-                        Inventory.GetItemWeapon(character, ShopWeapon);
-                        Inventory.LostMoneyArmor(character.inventory, ShopArmor);
-                        selectBUY = 4;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo("У вас недостаточно монет!", ShopInfo); 
-                        ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: {ShopWeapon.ItemCost}", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
-                        
+                        if (character.inventory.Money > ShopArmor.ItemCost)
+                        {
+                            Inventory.GetItemWeapon(character, ShopWeapon);
+                            Inventory.LostMoneyArmor(character.inventory, ShopArmor);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас недостаточно монет!", ShopInfo);
+                            ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: {ShopWeapon.ItemCost}", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+
+                        }
                     }
 
-                    if ((selectBUY == 3) && (character.inventory.Money > 10))
+
+                    if (_pushedKey.Key == ConsoleKey.D3)
                     {
-                        character.inventory.Heal += 1;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo($"У вас недостаточно монет!", ShopInfo);
-                        ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: 10", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
+                        if (character.inventory.Money > 10)
+                        {
+                            character.inventory.Heal += 1;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo($"У вас недостаточно монет!", ShopInfo);
+                            ScreenInfo.AddInfo($"У вас: {character.inventory.Money} Цена: 10", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
                     }
                 }
             }
 
-            if (select == 2)
+            if (_pushedKey.Key == ConsoleKey.D2)
             {
-                int selectSELL = 0;
-                ScreenInfo.AddInfo("Что вы хотите продать?", ShopInfo);
-                ScreenInfo.AddInfo("\'1\' - основную броню", ShopInfo);
-                ScreenInfo.AddInfo("\'2\' - основное оружие", ShopInfo); 
-                ScreenInfo.AddInfo("\'3\' - первый слот в инвентаре", ShopInfo);
-                ScreenInfo.AddInfo("\'4\' - второй слот в инвентаре", ShopInfo);
-                ScreenInfo.AddInfo("\'5\' - я передумал", ShopInfo);
-                ScreenInfo.ShowLastInfo(ShopInfo);
-                while (selectSELL != 5)
+                
+                while (_pushedKey.Key != ConsoleKey.D5)
                 {
-                    selectSELL = Convert.ToInt32(Console.ReadLine());
-                    if (selectSELL == 2 && character.inventory.equippedWeapon.Id > 0)
+                    ScreenInfo.AddInfo("Что вы хотите продать?", ShopInfo);
+                    ScreenInfo.AddInfo("\'1\' - основную броню", ShopInfo);
+                    ScreenInfo.AddInfo("\'2\' - основное оружие", ShopInfo);
+                    ScreenInfo.AddInfo("\'3\' - первый слот в инвентаре", ShopInfo);
+                    ScreenInfo.AddInfo("\'4\' - второй слот в инвентаре", ShopInfo);
+                    ScreenInfo.AddInfo("\'5\' - я передумал", ShopInfo);
+                    ScreenInfo.ShowLastInfo(ShopInfo);
+                    _pushedKey = Console.ReadKey();
+                    if (_pushedKey.Key == ConsoleKey.D2)
                     {
-                        character.inventory.Money += character.inventory.equippedWeapon.ItemCost;
-                        character.inventory.equippedWeapon = new Weapon(0, 0, 0, "Свободная ячейка под оружие", 0);
-                        selectSELL = 5;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
-                    }
-
-                    if (selectSELL == 1 && character.inventory.equippedArmor.Type > 0)
-                    {
-                        character.inventory.Money += character.inventory.equippedArmor.ItemCost;
-                        character.inventory.equippedArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
-                        selectSELL = 5;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
-                    }
-
-                    if (selectSELL == 3 && character.inventory.inventoryArmor.Type > 0)
-                    {
-                        character.inventory.Money += character.inventory.inventoryArmor.ItemCost;
-                        character.inventory.inventoryArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
-                        selectSELL = 5;
-                    }
-                    else
-                    {
-                        ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
+                        if (character.inventory.equippedWeapon.Id > 0)
+                        {
+                            character.inventory.Money += character.inventory.equippedWeapon.ItemCost;
+                            character.inventory.equippedWeapon = new Weapon(0, 0, 0, "Свободная ячейка под оружие", 0);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
                     }
 
-                    if (selectSELL == 4 && character.inventory.inventoryWeapon.Type > 0)
+
+                    if (_pushedKey.Key == ConsoleKey.D1)
                     {
-                        character.inventory.Money += character.inventory.inventoryWeapon.ItemCost;
-                        character.inventory.inventoryWeapon = new Weapon(0, 0, 0, "Свободная ячейка под броню", 0);
-                        selectSELL = 5;
+                        if (character.inventory.equippedArmor.Type > 0)
+                        {
+                            character.inventory.Money += character.inventory.equippedArmor.ItemCost;
+                            character.inventory.equippedArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
                     }
-                    else
+
+
+                    if (_pushedKey.Key == ConsoleKey.D3)
                     {
-                        ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
-                        ScreenInfo.ShowLastInfo(ShopInfo);
+                        if (character.inventory.inventoryArmor.Type > 0)
+                        {
+                            character.inventory.Money += character.inventory.inventoryArmor.ItemCost;
+                            character.inventory.inventoryArmor = new Armor(0, 0, "Свободная ячейка под броню", 0);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
+                    }
+
+
+                    if (_pushedKey.Key == ConsoleKey.D4)
+                    {
+                        if (character.inventory.inventoryWeapon.Type > 0)
+                        {
+                            character.inventory.Money += character.inventory.inventoryWeapon.ItemCost;
+                            character.inventory.inventoryWeapon = new Weapon(0, 0, 0, "Свободная ячейка под броню", 0);
+                            break;
+                        }
+                        else
+                        {
+                            ScreenInfo.AddInfo("У вас ничего нет\n", ShopInfo);
+                            ScreenInfo.AddInfo($"Для продолжения нажмите enter...", ShopInfo);
+                            ScreenInfo.ShowLastInfo(ShopInfo);
+                            _pushedKey = Console.ReadKey();
+                            while (_pushedKey.Key != ConsoleKey.Enter) { _pushedKey = Console.ReadKey(); }
+                        }
                     }
                 }
+            }
+            if (_pushedKey.Key == ConsoleKey.D3)
+            {
+                ScreenInfo.ShowLastInfo(ShopInfo);
+                return;
             }
         }
     }
 }
+
+
+
 
 class Knight : Person
 {

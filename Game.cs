@@ -53,7 +53,7 @@
                 Console.Clear();
                 ScreenMenu.GameOver();
                 //Console.WriteLine("GAME OVER");
-                game = 0;
+                return;
             }
         }
     }

@@ -51,6 +51,7 @@
             if (character.Health <= 0)
             {
                 Console.Clear();
+                ScreenMenu.GameOver();
                 //Console.WriteLine("GAME OVER");
                 game = 0;
             }

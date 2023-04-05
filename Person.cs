@@ -228,9 +228,8 @@ public class Person
                     character.TakeDamage(enemys[rnd].Damage);
                     if (character.Health <= 0)
                     {
-                        ScreenMenu.GameOver();
-                        //ScreenInfo.AddInfo($"Вы умерли", BattleInfo);
-                        //ScreenInfo.ShowLastInfo(BattleInfo);
+                        ScreenInfo.AddInfo($"Вы умерли", BattleInfo);
+                        ScreenInfo.ShowLastInfo(BattleInfo);
                         battle = true;
                         return;
                     }

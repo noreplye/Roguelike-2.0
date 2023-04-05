@@ -238,7 +238,7 @@ public class Person
                     if (enemys[rnd].Health <= 0)
                     {
                         character.ReturnSpell();
-                        ScreenInfo.AddInfo($"Вы победили", BattleInfo);
+                        ScreenInfo.AddInfo($"Вы победили врага", BattleInfo);
                         ScreenInfo.ShowLastInfo(BattleInfo);
                         battle = true;
                         return;

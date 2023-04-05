@@ -14,11 +14,25 @@
         ConsoleKeyInfo pushed_button;
         map karta = new map();
         map.init_StartRoom(karta);
-        Console.Write("");
+        
+        Console.SetCursorPosition(65,16);
         Console.Write("Введите имя вашего персонажа: ");
+        Console.ForegroundColor = ConsoleColor.Green;
         string name = Console.ReadLine();
-        Console.WriteLine("Выберите класс вашего персонажа: \n 1. Рыцарь \n 2. Лучник \n 3. Вор\n");
+        
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.SetCursorPosition(65,18);
+        Console.WriteLine("Выберите класс вашего персонажа: ");
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.SetCursorPosition(65,19);
+        Console.WriteLine("1. Рыцарь");
+        Console.SetCursorPosition(65,20);
+        Console.WriteLine("2. Лучник");
+        Console.SetCursorPosition(65,21);
+        Console.WriteLine("3. Вор");
         int ClassSelection = Convert.ToInt32(Console.ReadLine());
+        Console.ForegroundColor = ConsoleColor.White;        
+        
         Factory factory = GetMyPerson(ClassSelection);
         Person character = factory.GetMyPerson();
         character.TakeName(name);
@@ -37,7 +51,7 @@
             if (character.Health <= 0)
             {
                 Console.Clear();
-                Console.WriteLine("GAME OVER");
+                //Console.WriteLine("GAME OVER");
                 game = 0;
             }
         }

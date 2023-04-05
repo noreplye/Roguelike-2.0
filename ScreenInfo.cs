@@ -61,27 +61,21 @@ public class ScreenInfo
 
     }
 
-    public static void Menu(int left, int top, int weight, int height)
+	    public static void GameOver()
     {
-        for (int j = left; j <= weight + left; j++)
-        {
-            Console.SetCursorPosition(j, top);
-            Console.CursorVisible = false;
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("-");
-            Console.Write("\n");
-            Console.ForegroundColor = ConsoleColor.Green;
-            Console.SetCursorPosition(65,16);
-            Console.WriteLine("Нажмите любую клавишу, чтобы начать игру");
-            Console.SetCursorPosition(j, height + top);
-            Console.CursorVisible = false;
-            Console.ForegroundColor = ConsoleColor.DarkGray;
-            Console.Write("-");
-            
-        }
-        Console.ForegroundColor = ConsoleColor.White;
-        Console.ReadKey();
         Console.Clear();
+        Ending Overing = new Ending();
+        Overing = Ending.EndGame();
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.SetCursorPosition(73,15);
+        Console.WriteLine(Overing._over1);
+        Console.SetCursorPosition(73,16);
+        Console.WriteLine(Overing._over2);
+        Console.SetCursorPosition(73,17);
+        Console.WriteLine(Overing._over3);
+        Console.ReadKey();
+    }
+
     public static void
         ShowLastInfo(ScreenInfo screenInfo) //if status == 1 -> it's person info  //  if status == 2 -> it's battle
     {
@@ -147,9 +141,9 @@ public class ScreenInfo
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i + 5);
+                Console.SetCursorPosition(50, i + 7);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i + 5);
+                Console.SetCursorPosition(50, i + 7);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
             }
@@ -158,9 +152,9 @@ public class ScreenInfo
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i + 5);
+                Console.SetCursorPosition(50, i + 7);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i + 5);
+                Console.SetCursorPosition(50, i + 7);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
             }

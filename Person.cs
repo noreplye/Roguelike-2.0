@@ -57,13 +57,16 @@ public class Person
     public void ShowStats()
     {
         ScreenInfo screenInfo = new ScreenInfo(1);
+        Console.ForegroundColor = ConsoleColor.Green;
         ScreenInfo.AddInfo($"Вашего персонажа зовут: {_name}", screenInfo);
+        ScreenInfo.AddInfo(" ", screenInfo);
         ScreenInfo.AddInfo($"Ваши характеристики:", screenInfo);
         ScreenInfo.AddInfo($"Урон = {_damage}", screenInfo);
         ScreenInfo.AddInfo($"Броня = {_armor} ", screenInfo);
         ScreenInfo.AddInfo($"Выносливость = {_stamina}", screenInfo);
         ScreenInfo.AddInfo($"Здоровье = {_health}", screenInfo);
         ScreenInfo.ShowLastInfo(screenInfo);
+        Console.ForegroundColor = ConsoleColor.White;
 
         /*Console.WriteLine($"Вашего персонажа зовут: {_name}\nВаши характеристики:\nУрон = {_damage}\nБроня = " +
             $"{_armor}\nВыносливость = {_stamina}\nЗдоровье = {_health}");*/
@@ -225,8 +228,9 @@ public class Person
                     character.TakeDamage(enemys[rnd].Damage);
                     if (character.Health <= 0)
                     {
-                        ScreenInfo.AddInfo($"Вы умерли", BattleInfo);
-                        ScreenInfo.ShowLastInfo(BattleInfo);
+                        ScreenMenu.GameOver();
+                        //ScreenInfo.AddInfo($"Вы умерли", BattleInfo);
+                        //ScreenInfo.ShowLastInfo(BattleInfo);
                         battle = true;
                         return;
                     }
@@ -259,7 +263,7 @@ public class Person
 
     public static void OpenChest(Person character)
     {
-        int toget = new Random().Next(0, 4); // 0 - монетка, 1 - фласка, 2 - броня, 3 - оружие
+        int toget = new Random().Next(0, 5); // 0 - монетка, 1 - фласка, 2 - броня, 3 - оружие, 4 - ничего
         ScreenInfo ChestInfo = new ScreenInfo(3);
         if (toget == 3)
         {
@@ -304,6 +308,7 @@ public class Person
             ScreenInfo.AddInfo($"Вам выпало {WeaponToGet.ItemName} - Урон:{WeaponToGet.ItemStats}, Стоимость:{WeaponToGet.ItemCost}", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemWeapon(character, WeaponToGet);
+            Console.Clear();
         }
 
         if (toget == 2)
@@ -326,6 +331,7 @@ public class Person
             ScreenInfo.AddInfo($"Вам выпало {ArmorToGet.ItemName} - Броня:{ArmorToGet.ItemStats}, Стоимость:{ArmorToGet.ItemCost}", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetItemArmor(character, ArmorToGet);
+            Console.Clear();
         }
 
         if (toget == 0)
@@ -333,6 +339,7 @@ public class Person
             ScreenInfo.AddInfo("Вам выпала монетка", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetMoney(character.inventory);
+            Console.ReadKey();
         }
 
         if (toget == 1)
@@ -340,6 +347,13 @@ public class Person
             ScreenInfo.AddInfo("Вам выпало зелье здоровья", ChestInfo);
             ScreenInfo.ShowLastInfo(ChestInfo);
             Inventory.GetHeal(character.inventory);
+            Console.ReadKey();
+        }
+        if (toget == 4)
+        {
+            ScreenInfo.AddInfo("Вам ничего не выпало", ChestInfo);
+            ScreenInfo.ShowLastInfo(ChestInfo);
+            Console.ReadKey();
         }
     }
 

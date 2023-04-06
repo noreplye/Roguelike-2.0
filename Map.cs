@@ -133,6 +133,16 @@ public class map
             Person.Battle(character,3);
             current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] = 1;
             current_map._mapGraphics[current_map.player_yPos, current_map.player_xPos] = '.';
+            if (character._health > 0)
+            {
+                character.win = 1;
+            }
+
+            if (character._health <= 0)
+            {
+                character.win = 0;
+            }
+            
         }
         if (current_map._mapObjects[current_map.player_yPos, current_map.player_xPos] == 6)
         {

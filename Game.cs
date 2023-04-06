@@ -50,16 +50,27 @@ public class Game
         }
         //character.ShowStats();
         Console.Clear();
-        map.display(50, 20, karta);
+        map.display(57, 18, karta);
         character.ShowStats();
         pushed_button = Console.ReadKey();
         while (1 > 0)
         {
-            map.display(50, 20, karta);
+            map.display(57, 18, karta);
             character.ShowStats();
             map.init_Event(karta, character);
             pushed_button = Console.ReadKey();
             Game_control.button_control(karta, pushed_button, character);
+            if (character.win == 1)
+            {
+                ScreenMenu.GameWin();
+                return;
+            }
+
+            if (character.win == 0)
+            {
+                ScreenMenu.GameOver();
+                return;
+            }
             if (character.Health <= 0)
             {
                 Console.Clear();

@@ -42,6 +42,7 @@ public class Person
     private int _WeaponId;
     public int _SpellCounter = 0;
     public string _task;
+    public int win=5;
     public Inventory inventory;
 
 

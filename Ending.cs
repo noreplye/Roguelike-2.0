@@ -28,6 +28,7 @@ public class Ending
         string FileeData = new StreamReader(StreamGame).ReadToEnd();
         GameEnd OverGaming = JsonSerializer.Deserialize<GameEnd>(FileeData);
         return OverGaming;
+        
     }
 }
 

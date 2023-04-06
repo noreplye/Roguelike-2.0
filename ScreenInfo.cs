@@ -32,9 +32,9 @@ public class ScreenInfo
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(130, i);
+                Console.SetCursorPosition(120, i);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(130, i);
+                Console.SetCursorPosition(120, i);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = ""; //все показанные строки в массиве почистили
             }
@@ -44,11 +44,13 @@ public class ScreenInfo
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.SetCursorPosition(50, i + 5);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i);
+                Console.SetCursorPosition(50, i + 5);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
 
@@ -78,31 +80,48 @@ public class ScreenInfo
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i + 7);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.SetCursorPosition(50, i + 9);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i + 7);
+                Console.SetCursorPosition(50, i + 9);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
         if (screenInfo.status == 7) //Inventory Armor info
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i + 7);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.SetCursorPosition(50, i + 9);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i + 7);
+                Console.SetCursorPosition(50, i + 9);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
         if (screenInfo.status == 8) // Show Inventory 
         {
             for (int i = 0; i < _SIZE; i++)
             {
-                Console.SetCursorPosition(50, i + 5);
+                Console.ForegroundColor = ConsoleColor.Cyan;
+                Console.SetCursorPosition(120, i + 10);
                 Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
-                Console.SetCursorPosition(50, i + 5);
+                Console.SetCursorPosition(120, i + 10);
+                Console.Write(screenInfo.StringArrayInfo[i]);
+                screenInfo.StringArrayInfo[i] = "";
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+        }
+        if (screenInfo.status == 9) // Quest info  
+        {
+            for (int i = 0; i < _SIZE; i++)
+            {
+                Console.SetCursorPosition(0, i + 41);
+                Console.Write("                                                                                                         "); //100 пробелов чтобы очистить предыдущую надпись
+                Console.SetCursorPosition(0, i + 41);
                 Console.Write(screenInfo.StringArrayInfo[i]);
                 screenInfo.StringArrayInfo[i] = "";
             }

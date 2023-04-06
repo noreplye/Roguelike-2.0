@@ -70,6 +70,8 @@ public class Person
         ScreenInfo.AddInfo($"Выносливость = {_stamina}", screenInfo);
         ScreenInfo.AddInfo($"Здоровье = {_health}", screenInfo);
         ScreenInfo.AddInfo($"Текущая цель: {_task}", screenInfo);
+        ScreenInfo.AddInfo(" ", screenInfo);
+        ScreenInfo.AddInfo($"У вас монет: {inventory.Money}", screenInfo);
         ScreenInfo.ShowLastInfo(screenInfo);
         Console.ForegroundColor = ConsoleColor.White;
 
